@@ -1,0 +1,13 @@
+<?xml version="1.0"?><component name="dataSourceStorage">
+  <data-source source="LOCAL" name="KmSystemDataSource" product="" version="" uuid="a0982c89-a34d-4d56-ace1-2eabab080ec3">
+    <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+    <jdbc-url>jdbc:mysql://localhost:3306/kmsystem</jdbc-url>
+    <user-name>root</user-name>
+    <user-password>dfe6df99dfd9dfdedfcbdfd8df9b</user-password>
+    <libraries>
+      <library>
+        <url>jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/mysql-connector-java.jar!/</url>
+      </library>
+    </libraries>
+  </data-source>
+</component>

@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+
+<!-- ==================================================== -->
+<!-- Build file for sisy core application -->
+<!-- build.xml, Thuesday, 14 September 2010 -->
+<!-- Author: Reno Natalino -->
+<!-- ==================================================== -->
+
+<project name="kmsystem" default="deploy" basedir=".">
+
+    <property environment="env" />
+    <property file="build.properties" />
+
+    <property name="build.dir" value="${basedir}/build"/>
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="web.dir" value="${basedir}/WebContent" />
+
+	<property name="war.dir" value="${build.dir}/war" />
+	<property name="war.file" value="${ant.project.name}.war" />
+
+    <property name="deployment.name" value="${ant.project.name}" />
+    <property name="deployment.desc" value="${build.dir}/deploymentdescriptors" />
+    <property name="web.context" value="${ant.project.name}" />
+
+    <!-- Copy catalina-ant.jar into your ant/lib from ${server.home}/lib -->
+    <taskdef name="start" classname="org.apache.catalina.ant.StartTask" />
+	<taskdef name="stop" classname="org.apache.catalina.ant.StopTask" />
+	<taskdef name="deploy-war" classname="org.apache.catalina.ant.DeployTask" />
+	<taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask" />
+
+    <!-- Start tomcat server without debug capability-->
+    <target name="tomcat-start-no-debug">
+        <java jar="C:/server/Tomcat/bin/bootstrap.jar" fork="true">
+            <jvmarg value="-Dcatalina.home=${tomcat.server.home}"/>
+        </java>
+    </target>
+
+    <!-- Start tomcat server with debug capability -->
+    <target name="tomcat-start-debug">
+        <java jar="C:/server/Tomcat/bin/bootstrap.jar" fork="true">
+            <jvmarg value="-Dcatalina.home=${tomcat.server.home}"/>
+            <jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"/>
+        </java>
+    </target>
+
+    <!-- Stop tomcat server -->
+    <target name="tomcat-stop">
+        <java jar="C:/server/Tomcat/bin/bootstrap.jar" fork="true">
+            <jvmarg value="-Dcatalina.home=${tomcat.server.home}"/>
+            <arg line="stop"/>
+        </java>
+    </target>
+
+    <!-- Special task from apache to deploy war file to deployement server -->
+    <target name="stop" description="stop application in tomcat">
+        <stop url="${tomcat.manager.url}" username="${tomcat.username}"
+              password="${tomcat.password}" path="/${deployment.name}" />
+    </target>
+
+    <target name="start" description="start application in tomcat">
+        <start url="${tomcat.manager.url}" username="${tomcat.username}"
+               password="${tomcat.password}" path="/${deployment.name}" />
+    </target>
+
+    <target name="undeploy" description="undeploy from tomcat">
+        <echo>start undeploying from client</echo>
+        <undeploy failonerror="no" url="${tomcat.manager.url}"
+                  username="${tomcat.username}" password="${tomcat.password}" path="/${deployment.name}"/>
+        <echo>end undeploying from client</echo>
+    </target>
+
+    <target name="deploy-war" description="deploy to tomcat">
+        <echo>start deploying from client</echo>
+        <deploy-war failonerror="no" url="${tomcat.manager.url}"
+                username="${tomcat.username}" password="${tomcat.password}" path="/${deployment.name}"
+                war="${build.dir}/${war.file}"/>
+        <echo>end deploying from client</echo>
+    </target>
+
+    <target name="init">
+        <echo>start init from client</echo>
+		<!-- Create Web-inf and classes directories -->
+		<mkdir dir="${war.dir}/WEB-INF" />
+		<mkdir dir="${war.dir}/WEB-INF/classes" />
+
+		<path id="lib.file.dir">
+			<fileset dir="${web.dir}/WEB-INF/lib">
+				<include name="**/*.jar" />
+			</fileset>
+			<fileset dir="${tomcat.server.home}/lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
+        <echo>end init from client</echo>
+	</target>
+
+    <!-- Main target -->
+	<target name="deploy" depends="clean, undeploy, create-war, deploy-war" description="Deploy the application."/>
+
+	<!-- Compile Java Files and store in /build/classes directory 	-->
+	<target name="build" depends="init" description="Compile all java files and store in /build/classes directory">
+        <echo>start compile classes from client</echo>
+		<mkdir dir="${classes.dir}" />
+		<javac fork="true" memoryinitialsize="256M" memorymaximumsize="512M"
+			   encoding="8859_1" classpathref="lib.file.dir" srcdir="${src.dir}"
+			   destdir="${classes.dir}" debug="true" includes="**/*.java"/>
+        <echo>end compile classes from client</echo>
+	</target>
+
+    <!-- Build the war file -->
+	<target name="build-war" depends="build" description="Building the war file.">
+        <echo>start build war from client</echo>
+		<mkdir dir="${war.dir}" />
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}" includes="**/*.properties"/>
+            <fileset dir="${src.dir}" includes="**/*.xml"/>
+		</copy>
+		<copy todir="${war.dir}/WEB-INF/classes">
+			<fileset dir="${classes.dir}" includes="**/*.class" />
+			<fileset dir="${classes.dir}" includes="**/*.properties" />
+            <fileset dir="${classes.dir}" includes="**/*.xml" />
+		</copy>
+		<copy todir="${war.dir}/WEB-INF">
+			<fileset dir="${deployment.desc}" includes="web.xml" />
+		</copy>
+		<copy todir="${war.dir}">
+			<fileset dir="${web.dir}" includes="**/*.*" excludes="**/*.class"/>
+		</copy>
+        <echo>end build war from client</echo>
+	</target>
+
+	<target name="create-war" depends="build-war" description="Creating the war file.">
+        <echo>start create war from client</echo>
+		<!-- Create war file and place in war directory -->
+		<jar jarfile="${build.dir}/${war.file}" basedir="${war.dir}" />
+        <echo>end create war from client</echo>
+	</target>
+
+    <target name="clean" description="clean all deployment files.">
+        <echo>start delete build dir from client</echo>
+		<delete quiet="true" failonerror="false" includeEmptyDirs="true">
+			<fileset dir="${war.dir}"/>
+			<fileset dir="${classes.dir}" />
+			<fileset dir="${build.dir}">
+				<include name="${war.file}" />
+			</fileset>
+		</delete>
+        <echo>end delete build dir from client</echo>
+	</target>
+
+    <!-- special task for development (only) -->
+	<target name="sync-web-files" depends="build-war" description="synchronized web files to development server.">
+		<copy todir="${tomcat.server.home}/WebContent/${deployment.name}">
+	  		<fileset dir="${war.dir}" />
+	  	</copy>
+	</target>
+    <target name="sync-class" depends="init,build" description="synchronized class files to development server.">
+		<copy todir="${tomcat.server.home}/WebContent/${deployment.name}/WEB-INF/classes">
+			  <fileset dir="${classes.dir}" />
+		</copy>
+	</target>
+
+	<target name="sync-jsp" depends="init" description="synchronized jsp files to development server.">
+        <echo>start sync jsp, css, js, img file from client to deployment server</echo>
+        <copy todir="${tomcat.server.home}/webapps/${deployment.name}/pages">
+	  		<fileset dir="${basedir}/WebContent/pages" includes="**/*.jsp" excludes="**/.svn/*.*"/>
+	  	</copy>
+        <copy todir="${tomcat.server.home}/webapps/${deployment.name}/css">
+	  		<fileset dir="${basedir}/WebContent/css" includes="**/*.*" excludes="**/.svn/*.*"/>
+	  	</copy>
+		<copy todir="${tomcat.server.home}/webapps/${deployment.name}/js">
+	  		<fileset dir="${basedir}/WebContent/js" includes="**/*.*" excludes="**/.svn/*.*"/>
+	  	</copy>
+		<copy todir="${tomcat.server.home}/webapps/${deployment.name}/img">
+	  		<fileset dir="${basedir}/WebContent/img" includes="**/*.*" excludes="**/.svn/*.*"/>
+	  	</copy>
+        <echo>end sync jsp, css, js, img file from client to deployment server</echo>
+	</target>
+
+</project>

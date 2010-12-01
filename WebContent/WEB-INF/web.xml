@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    
+    <display-name>KMSystem Application</display-name>
+
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>StripesResources</param-value>
+    </context-param>
+    
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!--    S T R I P E S  F I L T E R  C O N F I G U R A T I O N    -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <filter>
+        <filter-name>StripesFilter</filter-name>
+        <filter-class>net.sourceforge.stripes.controller.StripesFilter</filter-class>
+        <init-param>
+            <param-name>ActionResolver.Packages</param-name>
+            <param-value>com.app.kmsystem.action</param-value>
+        </init-param>
+        <init-param>
+            <param-name>LocalePicker.Locales</param-name>
+            <param-value>en_US:UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>Stripes.EncryptionKey</param-name>
+            <param-value>KmS3yst3mStr1p3sSpr1n9</param-value>
+        </init-param>
+        <init-param>
+            <param-name>ActionBeanContext.Class</param-name>
+            <param-value>com.app.kmsystem.action.util.BaseActionBeanContext</param-value>
+        </init-param>
+        <init-param>
+            <param-name>PopulationStrategy.Class</param-name>
+            <param-value>net.sourceforge.stripes.tag.BeanFirstPopulationStrategy</param-value>
+        </init-param>
+        <init-param>
+            <param-name>Extension.Packages</param-name>
+            <param-value>
+                com.app.kmsystem.ext,
+                net.sourceforge.stripes.integration.spring,
+                org.stripesstuff.plugin.security
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>ExceptionHandler.Class</param-name>
+            <param-value>net.sourceforge.stripes.exception.DelegatingExceptionHandler</param-value>
+        </init-param>
+        <init-param>
+            <param-name>DelegatingExceptionHandler.Packages</param-name>
+            <param-value>com.app.kmsystem.exception</param-value>
+        </init-param>
+        <init-param>
+            <param-name>Interceptor.Classes</param-name>
+            <param-value>net.sourceforge.stripes.integration.spring.SpringInterceptor</param-value>
+        </init-param>
+    </filter>
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!--    S T R I P E S  D I S P A T C H E R  C O N F I G U R A T I O N    -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <servlet>
+        <servlet-name>DispatcherServlet</servlet-name>
+        <servlet-class>net.sourceforge.stripes.controller.DispatcherServlet</servlet-class>
+	    <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DispatcherServlet</servlet-name>
+        <url-pattern>*.action</url-pattern>
+    </servlet-mapping>
+
+    <filter-mapping>
+        <filter-name>StripesFilter</filter-name>
+        <servlet-name>DispatcherServlet</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!--    S E S S I O N  C O N F I G U R A T I O N    -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <session-config>
+        <session-timeout>
+            35 <!-- Minutes -->
+        </session-timeout>
+    </session-config>
+    
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!--    W E L C O M E  F I L E  L I S T    -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+</web-app>
