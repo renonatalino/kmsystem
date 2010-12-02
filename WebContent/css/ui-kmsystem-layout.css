@@ -1,0 +1,76 @@
+* {padding: 0px; margin: 0px; border: 0px;}
+body {font-family: Arial, Helvetica, sans-serif; font-size: 62.5%; color: #3F4554; text-align: center; line-height: 1.8em;}
+
+/* Main Content */
+.ui-page-container {width: 1010px; margin: 15px auto 15px auto; padding: 0px; text-align: left; border: solid 1px #4297d7;}
+.ui-header {width: 100%; height: 85px; background:url(../img/ui-bg-header.png) 50% bottom repeat-x;}
+.ui-breadcumb {padding: 0px; margin: 0px; padding:5px; width:1000px !important; display:block; float:left; height: 21px; background: #fff; overflow:hidden; border-bottom: solid 1px #4297d7; font-size:11px; font-style:normal; font-weight:normal; font-variant:normal;}
+.ui-footer {padding: 0px; margin: 0px; border-top: solid 1px #4297d7; background-color:#67a3cf; font-size:1.0em; font-family:Verdana, Arial, sans-serif !important;}
+.ui-container-form {width: 100%; height: auto; margin: 0px; padding:2px 0px; background:url(../img/bg.jpg) repeat-y 230px 0px;}
+.ui-content-left {width: 188px; height: auto; float: left; padding: 20px; margin: 0px;}
+.ui-content-right {width: 737px; height: auto; float: right; padding: 20px 21px 20px 20px; margin: 0px;}
+.clearer {font-size: 0px; height: 0px; width: 100%; display: block; clear: both;}
+
+.ui-content-menu{background-color:#657077;}
+
+/* Login Form */
+.ui-content-right form{}
+.ui-content-right form.label{}
+.ui-content-right form.input{}
+
+/* Footer */
+.ui-footer p {margin: 0px auto 0px auto; padding: 5px 0px 5px 0px; color: #ffffff; text-align: center;}
+
+/* button */
+.ui-sisy-button {outline: 0; margin:0 2px 0 0; padding: .3em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; font-weight:normal !important;}
+
+/* Float Clearing */
+.module:after{clear: both; content: "."; display: block; height: 0; visibility: hidden;}
+* html .module { height: 1%; overflow: visible; }
+* + html .module {min-height: 1%;}
+
+/* Breadcrumb */
+.ui-breadcumb ul{margin: 0; padding: 0; height: 21px; display: block;}
+.ui-breadcumb ul li{display: block; float: left; position: relative; height: 21px; overflow: hidden; line-height: 21px; margin: 0px 6px 0px 0; padding: 0px 10px 0px 0; background: url(../img/Chevron.gif) no-repeat 100% 0;}
+.ui-breadcumb ul li div.chevronOverlay{ position: absolute; right: 0; top: 0; z-index: 2;}
+.ui-breadcumb ul li span{display: block; overflow: hidden;}
+.ui-breadcumb ul li a {color: #0e82c7; text-decoration: none; font-size: inherit; font-weight: inherit;}
+.ui-breadcumb ul li a:hover {text-decoration: underline;}
+.ui-breadcumb ul li a{display: block; position: relative; height: 21px; line-height: 21px; overflow: hidden; float: left;}
+.ui-breadcumb ul li.first a{height: 16px !important; text-indent:-1000em; width:16px; padding: 0; margin-top: 2px; overflow: hidden; background:url(../img/IconHome.gif) no-repeat 0 0;}
+.ui-breadcumb ul li.first a:hover{background-position: 0 -16px;}
+.ui-breadcumb ul li.last{background: none; margin-right: 0; padding-right: 0;}
+.chevronOverlay{display: none; background: url(../img/ChevronOverlay.png) no-repeat 100% 0; width: 13px; height: 20px;}
+
+/* Simple Modal dialog */
+#simplemodal-overlay {background-color:#000;}
+#simplemodal-container {background-color:#333; border:2px solid #444; padding:5px;}
+#simplemodal-container a.modal-close,
+#simplemodal-container a.modal-close:link,
+#simplemodal-container a.modal-close:active,
+#simplemodal-container a.modal-close:visited {color:#999; font-size:18px; font-weight:bold; position:absolute; text-decoration:none; right:5px; top:0px;}
+#simplemodal-container a.modal-close:hover {color:#ccc;}
+
+#welcome-note-container {width:400px; padding:0; margin:0;}
+#welcome-note-container h1 {padding: 5px 0 5px 30px; color:#ffffff; text-align:left; background:url(../img/logo-small.png) 2px 50% no-repeat; font: Bold 14px Verdana, 'Trebuchet MS', Sans-serif;}
+#welcome-note-container p {padding:3px 0 3px 0; font:12px normal; color:#ffffff; text-align:left;}
+
+/* Sidebar menu */
+.myAccordion {font-family:Verdana, 'Trebuchet MS', Sans-serif !important;}
+.myAccordion ul { list-style:none; text-align: left; margin:0; padding: 0; text-decoration: none; font:normal 11px Verdana, 'Trebuchet MS', Sans-serif;}
+.myAccordion ul li {display:block;}
+.myAccordion ul li.user {background:url(../img/user.png) no-repeat 5px;}
+.myAccordion ul li.access {background:url(../img/group_key.png) no-repeat 5px;}
+.myAccordion ul li.role {background:url(../img/group_link.png) no-repeat 5px;}
+.myAccordion li a {min-height:1.5em; height:auto; line-height:2.0em; margin:3px; padding:2px 0px 3px 28px; color:#4F82CB; font-weight:normal; text-decoration:none;}
+.myAccordion li a.selected {color:#4EBF37;}
+.myAccordion li a.selected:hover {color:#4EBF37;}
+.myAccordion li a.selected:visited {color:#4EBF37;}
+.myAccordion li a:hover {color:#4EBF37; text-decoration:none;}
+
+/* jquery ui overwrite style */
+.ui-accordion .ui-accordion-content {padding:2px !important;}
+.ui-widget-overlay{background:#000 none !important;}
+.ui-datepicker {z-index:1200;}
+.ui-widget-content{font-weight: normal;}
+

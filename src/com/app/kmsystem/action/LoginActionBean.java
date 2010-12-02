@@ -7,23 +7,23 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 
 /**
- * File: com.app.kmsystem.action.MainActionBean.java
+ * File: com.app.kmsystem.action.LoginActionBean.java
  * <p/>
  * Project: kmsystem
  * Author : Reno Natalino
- * Created: Dec 1, 2010, 5:02:07 PM
+ * Created: Dec 2, 2010, 10:58:02 AM
  */
 
-public class MainActionBean extends BaseActionBean{
-    private static final String MAIN_PAGE = PageConstants.MAINPAGE.MAIN_PAGE;
+public class LoginActionBean extends BaseActionBean{
+    private static final String LOGIN_PAGE = PageConstants.LOGIN.LOGIN_PAGE;
 
     @Override
     @DefaultHandler
     public Resolution show() {
-        return new ForwardResolution(MAIN_PAGE);
+        return new ForwardResolution(LOGIN_PAGE);
     }
 
-    public Resolution doLoadData(){
+    public Resolution doLogin(){
         return null;
     }
 }
